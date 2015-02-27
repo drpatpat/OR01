@@ -14,5 +14,9 @@
     "debug": "~2.0.0",
     "jade": "~1.6.0",
     "express-handlebars": "~1.2.1"
+  },
+  "devDependencies": {
+    "mocha": "~2.1.0",
+    "chai": "~2.1.0"
   }
 }
