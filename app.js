@@ -27,6 +27,7 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
 app.use(express.static(__dirname + '/public'));
+app.use(require('body-parser')());
 
 app.use(function(req, res, next){
     res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
@@ -130,6 +131,25 @@ app.get('/data/nursery-rhyme', function(req, res){
         adjective: 'bushy',
         noun: 'heck',
     });
+});
+
+app.get('/thank-you', function(req, res){
+    res.render('thank-you');
+});
+
+app.get('/newsletter', function(req, res){
+    // we will learn about CSRF later ... for now, we just provide a dummy value
+    res.render('newsletter', {csrf: 'CSRF token goes here'});
+});
+
+app.post('/process', function(req, res){
+    console.log(req.xhr);
+    console.log(req.accepts('json,html'));
+    if(req.xhr || req.accepts('json,html')==='json'){
+        res.send({success:true});
+    } else {
+        res.redirect(303, '/thank-you');
+    }
 });
 
 // 404 catch-all handler (middleware)
